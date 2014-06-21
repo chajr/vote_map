@@ -8,4 +8,38 @@ body {
 }
 #map-canvas {
     height: 100%;
+    width: 70%;
+    float: right;
+}
+#search-box{
+    width: 30%;
+    height: 100%;
+    float: left;
+}
+#search-box div{
+    margin: 10px auto;
+    width: 175px;
+}
+#submit{
+    margin: 10px auto;
+    width: 70px;
+    display: block;
+}
+#search-box .success, #search-box .error{
+    width: 75%;
+    margin: 10px auto;
+    display: none;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid;
+}
+.success{
+    background-color: #1f871f;
+    border-color: #29b029;
+    color: #ffffff;
+}
+.error{
+    background-color: #900000;
+    border-color: #c30000;
+    color: #ffffff;
 }
