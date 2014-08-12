@@ -14,11 +14,15 @@ var area = [
     new google.maps.LatLng(50.552618, 19.318380),
     new google.maps.LatLng(50.558180, 19.298467)
 ];
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+
 
 function initialize() {
-    mainPoint       = new google.maps.LatLng(50.570452366163686, 19.306543171405792);
-    geocoder        = new google.maps.Geocoder();
-    mapOptions      = {
+    directionsDisplay   = new google.maps.DirectionsRenderer();
+    mainPoint           = new google.maps.LatLng(50.570452366163686, 19.306543171405792);
+    geocoder            = new google.maps.Geocoder();
+    mapOptions          = {
         center: mainPoint,
         zoom: 12
     };
@@ -50,9 +54,39 @@ function initialize() {
         fillOpacity: 0.35
     });
     testArea.setMap(map);
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById('directions-panel'));
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+$('#submit2').click(function ()
+{
+    $('.error').hide();
+    var end;
+    var address = document.getElementById('address2').value;
+
+    geocoder.geocode( { 'address': address}, function(results, status)
+    {
+        if (status == google.maps.GeocoderStatus.OK) {
+            end         = results[0].geometry.location;
+            var request = {
+                origin:mainPoint,
+                destination:end,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        } else {
+            $('.error').text('Geocode was not successful for the following reason: ' + status);
+            $('.error').show();
+        }
+    });
+});
 
 $('#submit').click(function()
 {
