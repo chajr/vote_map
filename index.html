@@ -35,9 +35,23 @@
                 </div>
                 <input type="button" value="Submit" id="submit2"/>
             </form>
+
+            <form>
+                <div>
+                    <label for="group_markers">
+                        Select marker group
+                    </label>
+                    <div id="group_markers"></div>
+                </div>
+                <div id="empty_checkbox">
+                    <label></label>
+                    <input type="checkbox" value=""/>
+                </div>
+            </form>
+
             <div class="success">Location was found</div>
             <div class="error">Location was not found</div>
-
+            <form id="location"></form>
             <div id="directions-panel"></div>
         </div>
         <div id="map-canvas"></div>
@@ -46,6 +60,8 @@
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCFQtv1FbfpQtH4JXE2ZwxkG0DAV8pjyM&libraries=geometry"></script>
+        <script type="text/javascript" src="js/vendor/RouteBoxer.js"></script>
+        <script type="text/javascript" src="js/markers.js"></script>
         <script type="text/javascript" src="js/maps.js"></script>
     </body>
 </html>

@@ -17,6 +17,22 @@ var area = [
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 
+var routeBoxer      = new RouteBoxer();
+var distance        = 0.5; // km
+var icrement;
+var boxes;
+
+for(key in pointGroups) {
+    var emptyCheckbox = $('#empty_checkbox').clone();
+    emptyCheckbox.find('label').text(pointGroups[key].name);
+    emptyCheckbox.find('input').val(pointGroups[key].code);
+    $('#group_markers').append(emptyCheckbox);
+}
+
+$(document).on('click', '#empty_checkbox input', function()
+{
+    drawMarkers();
+});
 
 function initialize() {
     directionsDisplay   = new google.maps.DirectionsRenderer();
@@ -56,9 +72,20 @@ function initialize() {
     testArea.setMap(map);
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById('directions-panel'));
+
+    google.maps.event.addListener(map, 'click', function(e) {
+        placeMarker(e.latLng, map);
+    });
+
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function placeMarker(position, map) {
+    lan = position.B;
+    lat = position.k;
+    $('#location').text(lat + ', ' + lan);
+}
 
 $('#submit2').click(function ()
 {
@@ -79,6 +106,11 @@ $('#submit2').click(function ()
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
+
+                    var path        = response.routes[0].overview_path;
+                    boxes           = routeBoxer.box(path, distance);
+
+                    drawMarkers();
                 }
             });
         } else {
@@ -87,6 +119,74 @@ $('#submit2').click(function ()
         }
     });
 });
+
+function drawMarkers()
+{
+    for(key in pointGroups) {
+        var renderedMarkers = pointGroups[key].renderedMarkers;
+        for (var l = 0; l < renderedMarkers.length; l++) {
+            if (renderedMarkers[l]) {
+                renderedMarkers[l].setMap(null);
+            }
+        }
+        pointGroups[key].renderedMarkers = [];
+    }
+
+    var enabledGroups = [];
+    $('#group_markers input:checked').each(function()
+    {
+        enabledGroups.push($(this).val());
+    });
+
+    for (var k = 0; k < enabledGroups.length; k++) {
+        var groupMarkers = pointGroups[enabledGroups[k]].markers;
+        for (icrement = 0; icrement < groupMarkers.length; icrement++) {
+
+            if (boxes) {
+                for (var i = 0; i < boxes.length; i++) {
+                    var boxpolys = new google.maps.Rectangle({
+                        bounds: boxes[i],
+                        fillOpacity: 0,
+                        strokeOpacity: 1.0,
+                        strokeColor: '#000000',
+                        strokeWeight: 1
+                    });
+
+                    var exist = boxpolys.getBounds().contains(groupMarkers[icrement].marker);
+                    if (exist) {
+                        pointGroups[enabledGroups[k]].renderedMarkers[icrement] = new google.maps.Marker({
+                            position: groupMarkers[icrement].marker,
+                            icon: pointGroups[enabledGroups[k]].image,
+                            map: map
+                        });
+                    }
+                }
+            } else {
+                pointGroups[enabledGroups[k]].renderedMarkers[icrement] = new google.maps.Marker({
+                    position: groupMarkers[icrement].marker,
+                    icon: pointGroups[enabledGroups[k]].image,
+                    map: map
+                });
+            }
+
+            //pointGroups[code].renderedDescriptions[icrement] = new google.maps.InfoWindow({
+            //    content: groupMarkers[icrement].description
+            //});
+            //google.maps.event.addListener(
+            //    pointGroups[code].renderedMarkers[icrement],
+            //    'click',
+            //    function()
+            //    {
+            //        pointGroups[code].renderedDescriptions[icrement]
+            //            .open(
+            //            map,
+            //            pointGroups[code].renderedMarkers[icrement]
+            //        );
+            //    }
+            //);
+        }
+    }
+}
 
 $('#submit').click(function()
 {

@@ -59,4 +59,10 @@ form{
     width: 100%;
     overflow: auto;
 }
+#empty_checkbox{
+    display: none;
+}
+#group_markers #empty_checkbox{
+    display: block;
+}
 
