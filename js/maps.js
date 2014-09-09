@@ -90,29 +90,23 @@ function placeMarker(position, map) {
 $('#submit2').click(function ()
 {
     $('.error').hide();
-    var end;
-    var address = document.getElementById('address2').value;
+    var addressStart = document.getElementById('address_start').value;
+    var addressEnd   = document.getElementById('address_end').value;
 
-    geocoder.geocode( { 'address': address}, function(results, status)
-    {
-        if (status == google.maps.GeocoderStatus.OK) {
-            end         = results[0].geometry.location;
-            var request = {
-                origin:mainPoint,
-                destination:end,
-                travelMode: google.maps.TravelMode.DRIVING
-            };
+    var request = {
+        origin:addressStart,
+        destination:addressEnd,
+        travelMode: google.maps.TravelMode.DRIVING
+    };
 
-            directionsService.route(request, function(response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(response);
+    directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
 
-                    var path        = response.routes[0].overview_path;
-                    boxes           = routeBoxer.box(path, distance);
+            var path        = response.routes[0].overview_path;
+            boxes           = routeBoxer.box(path, distance);
 
-                    drawMarkers();
-                }
-            });
+            drawMarkers();
         } else {
             $('.error').text('Geocode was not successful for the following reason: ' + status);
             $('.error').show();
