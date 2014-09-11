@@ -7,35 +7,35 @@ var pointGroups = {
         renderedDescriptions: [],
         markers: [
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 1',
                 marker: new google.maps.LatLng(50.55205300566058, 19.356227876851335)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 2',
                 marker: new google.maps.LatLng(50.53983561874307, 19.362407686421648)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 3',
                 marker: new google.maps.LatLng(50.52957929709429, 19.372020723531023)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 4',
                 marker: new google.maps.LatLng(50.508404944357714, 19.39605331630446)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 5',
                 marker: new google.maps.LatLng(50.55205300566058, 19.356227876851335)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 6',
                 marker: new google.maps.LatLng(50.50229099322129, 19.38609695644118)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 7',
                 marker: new google.maps.LatLng(50.54921710867983, 19.33562851161696)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 8',
                 marker: new google.maps.LatLng(50.49595785216966, 19.40154648036696)
             }
         ]
@@ -48,19 +48,19 @@ var pointGroups = {
         renderedDescriptions: [],
         markers: [
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 9',
                 marker: new google.maps.LatLng(50.531543446202086, 19.291648864746094)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 10',
                 marker: new google.maps.LatLng(50.499452103967734, 19.259376525878906)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 11',
                 marker: new google.maps.LatLng(50.48132286510293, 19.259067527018487)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 12',
                 marker: new google.maps.LatLng(50.517574386875225, 19.29992293473333)
             }
         ]
@@ -73,27 +73,27 @@ var pointGroups = {
         renderedDescriptions: [],
         markers: [
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 13',
                 marker: new google.maps.LatLng(50.52805156903338, 19.414592745015398)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 14',
                 marker: new google.maps.LatLng(50.5110249668106, 19.36137771815993)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 15',
                 marker: new google.maps.LatLng(50.54005381412548, 19.34764480800368)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 16',
                 marker: new google.maps.LatLng(50.51015164214735, 19.41630935878493)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 17',
                 marker: new google.maps.LatLng(50.47433142096928, 19.420085909077898)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 18',
                 marker: new google.maps.LatLng(50.49857856525173, 19.464374544331804)
             }
         ]
@@ -106,23 +106,23 @@ var pointGroups = {
         renderedDescriptions: [],
         markers: [
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 19',
                 marker: new google.maps.LatLng(50.48569199256475, 19.314342500874773)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 20',
                 marker: new google.maps.LatLng(50.47258339835516, 19.509349825093523)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 21',
                 marker: new google.maps.LatLng(50.456629706127664, 19.38129043788649)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 22',
                 marker: new google.maps.LatLng(50.57691433435199, 19.374423982808366)
             },
             {
-                description: 'sg dfg dfg dgdfg dg',
+                description: 'sg dfg dfg dgdfg dg 23',
                 marker: new google.maps.LatLng(50.561868254941956, 19.266277315327898)
             }
         ]

@@ -19,7 +19,6 @@ var directionsService = new google.maps.DirectionsService();
 
 var routeBoxer      = new RouteBoxer();
 var distance        = 0.5; // km
-var icrement;
 var boxes;
 
 for(key in pointGroups) {
@@ -148,38 +147,46 @@ function drawMarkers()
 
                     var exist = boxpolys.getBounds().contains(groupMarkers[icrement].marker);
                     if (exist) {
-                        pointGroups[enabledGroups[k]].renderedMarkers[icrement] = new google.maps.Marker({
-                            position: groupMarkers[icrement].marker,
-                            icon: pointGroups[enabledGroups[k]].image,
-                            map: map
-                        });
+                        createGroupMarker(
+                            icrement,
+                            enabledGroups[k],
+                            groupMarkers
+                        );
                     }
                 }
             } else {
-                pointGroups[enabledGroups[k]].renderedMarkers[icrement] = new google.maps.Marker({
-                    position: groupMarkers[icrement].marker,
-                    icon: pointGroups[enabledGroups[k]].image,
-                    map: map
-                });
+                createGroupMarker(
+                    icrement,
+                    enabledGroups[k],
+                    groupMarkers
+                );
             }
-
-            //pointGroups[code].renderedDescriptions[icrement] = new google.maps.InfoWindow({
-            //    content: groupMarkers[icrement].description
-            //});
-            //google.maps.event.addListener(
-            //    pointGroups[code].renderedMarkers[icrement],
-            //    'click',
-            //    function()
-            //    {
-            //        pointGroups[code].renderedDescriptions[icrement]
-            //            .open(
-            //            map,
-            //            pointGroups[code].renderedMarkers[icrement]
-            //        );
-            //    }
-            //);
         }
     }
+}
+
+function createGroupMarker(increment, group, groupMarkers) {
+    pointGroups[group].renderedMarkers[icrement] = new google.maps.Marker({
+        position: groupMarkers[icrement].marker,
+        icon: pointGroups[group].image,
+        map: map
+    });
+
+    pointGroups[group].renderedDescriptions[icrement] = new google.maps.InfoWindow({
+        content: groupMarkers[icrement].description
+    });
+
+    var description = pointGroups[group].renderedDescriptions[icrement];
+    var marker      = pointGroups[group].renderedMarkers[icrement];
+
+    google.maps.event.addListener(
+        pointGroups[group].renderedMarkers[icrement],
+        'click',
+        function()
+        {
+            description.open(map, marker);
+        }
+    );
 }
 
 $('#submit').click(function()
