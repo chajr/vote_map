@@ -1,24 +1,11 @@
 var mainPoint;
-var contentString1 = 'some content to display';
 var mapOptions;
 var map;
-var marker1;
-var infoWindow1;
-var testArea;
 var geocoder;
-var area = [
-    new google.maps.LatLng(50.577915, 19.294691),
-    new google.maps.LatLng(50.583256, 19.322157),
-    new google.maps.LatLng(50.577043, 19.341211),
-    new google.maps.LatLng(50.563741, 19.353056),
-    new google.maps.LatLng(50.552618, 19.318380),
-    new google.maps.LatLng(50.558180, 19.298467)
-];
 var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-
-var routeBoxer      = new RouteBoxer();
-var distance        = 0.5; // km
+var directionsService   = new google.maps.DirectionsService();
+var routeBoxer          = new RouteBoxer();
+var distance            = 0.5; // km
 var boxes;
 
 for(key in pointGroups) {
@@ -46,29 +33,32 @@ function initialize() {
         mapOptions
     );
 
-    marker1 = new google.maps.Marker({
-        position: mainPoint,
-        map: map,
-        title:"Main point",
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-    });
+    for(key in areas) {
+        areas[key].renderedArea = new google.maps.Polygon({
+            paths: areas[key].points,
+            strokeColor: areas[key].backgroundColor,
+            strokeOpacity: areas[key].borderOpacity,
+            strokeWeight: areas[key].borderSize,
+            fillColor: areas[key].borderColor,
+            fillOpacity: areas[key].backgroundOpacity
+        });
+        areas[key].renderedArea.setMap(map);
 
-    infoWindow1 = new google.maps.InfoWindow({
-        content: contentString1
-    });
-    google.maps.event.addListener(marker1, 'click', function() {
-        infoWindow1.open(map, marker1);
-    });
+        areas[key].renderedMainPoint = new google.maps.Marker({
+            position: areas[key].mainPoint,
+            map: map,
+            title:areas[key].mainMarkerName,
+            icon: areas[key].mainPointIcon
+        });
 
-    testArea = new google.maps.Polygon({
-        paths: area,
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 1,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35
-    });
-    testArea.setMap(map);
+        areas[key].renderedMainPointInfo = new google.maps.InfoWindow({
+            content: areas[key].mainMarkerDescription
+        });
+        google.maps.event.addListener(areas[key].renderedMainPoint, 'click', function() {
+            areas[key].renderedMainPointInfo.open(map, areas[key].renderedMainPoint);
+        });
+    }
+
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById('directions-panel'));
 
@@ -196,21 +186,24 @@ $('#submit').click(function()
     var address = $('#address').val();
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-            var exist = google.maps.geometry.poly.containsLocation(
-                results[0].geometry.location,
-                testArea
-            );
+            for (key in areas) {
+                var exist = google.maps.geometry.poly.containsLocation(
+                    results[0].geometry.location,
+                    areas[key].renderedArea
+                );
 
-            if (exist) {
-                infoWindow1.open(map, marker1);
-                $('.success').show();
-            } else {
-                $('.error').show();
+                if (exist) {
+                    areas[key].renderedMainPointInfo.open(map, areas[key].renderedMainPoint);
+                    $('.success').show();
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                    break;
+                } else {
+                    $('.error').show();
+                }
             }
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
