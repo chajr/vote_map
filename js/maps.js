@@ -3,10 +3,11 @@ var mapOptions;
 var map;
 var geocoder;
 var directionsDisplay;
+var boxes;
 var directionsService   = new google.maps.DirectionsService();
 var routeBoxer          = new RouteBoxer();
 var distance            = 0.5; // km
-var boxes;
+var centerPoint         = new google.maps.LatLng(50.45072766195573, 19.519992830464616);
 
 for(key in pointGroups) {
     var emptyCheckbox = $('#empty_checkbox').clone();
@@ -22,10 +23,9 @@ $(document).on('click', '#empty_checkbox input', function()
 
 function initialize() {
     directionsDisplay   = new google.maps.DirectionsRenderer();
-    mainPoint           = new google.maps.LatLng(50.570452366163686, 19.306543171405792);
     geocoder            = new google.maps.Geocoder();
     mapOptions          = {
-        center: mainPoint,
+        center: centerPoint,
         zoom: 12
     };
     map = new google.maps.Map(
@@ -74,6 +74,10 @@ function placeMarker(position, map) {
     lan = position.B;
     lat = position.k;
     $('#location').text(lat + ', ' + lan);
+    var marker = new google.maps.Marker({
+        position: position,
+        map: map
+    });
 }
 
 $('#submit2').click(function ()
@@ -184,6 +188,8 @@ $('#submit').click(function()
     $('.success').hide();
     $('.error').hide();
     var address = $('#address').val();
+    var error   = true;
+
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             for (key in areas) {
@@ -196,17 +202,16 @@ $('#submit').click(function()
                     areas[key].renderedMainPointInfo.open(map, areas[key].renderedMainPoint);
                     $('.success').show();
                     map.setCenter(results[0].geometry.location);
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: results[0].geometry.location
-                    });
+                    error = false;
                     break;
-                } else {
-                    $('.error').show();
                 }
             }
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
+        }
+
+        if (error) {
+            $('.error').show();
         }
     });
 });
