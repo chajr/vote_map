@@ -199,6 +199,18 @@ $('#submit').click(function()
                 );
 
                 if (exist) {
+                    var request = {
+                        origin:results[0].geometry.location,
+                        destination:areas[key].mainPoint,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+
+                    directionsService.route(request, function(response, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay.setDirections(response);
+                            }
+                    });
+
                     areas[key].renderedMainPointInfo.open(map, areas[key].renderedMainPoint);
                     $('.success').show();
                     map.setCenter(results[0].geometry.location);
