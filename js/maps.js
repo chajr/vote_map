@@ -1,4 +1,3 @@
-var mainPoint;
 var mapOptions;
 var map;
 var geocoder;
@@ -73,10 +72,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
 function placeMarker(position, map) {
     lan = position.B;
     lat = position.k;
-    $('#location').text(lat + ', ' + lan);
     var marker = new google.maps.Marker({
         position: position,
         map: map
+    });
+    var description = new google.maps.InfoWindow({
+        content: '<div style="width:150px">' + lat + ', ' + lan + '</div>'
+    });
+    google.maps.event.addListener(marker, 'click', function() {
+        description.open(map, marker);
     });
 }
 
@@ -159,7 +163,7 @@ function drawMarkers()
     }
 }
 
-function createGroupMarker(increment, group, groupMarkers) {
+function createGroupMarker(icrement, group, groupMarkers) {
     pointGroups[group].renderedMarkers[icrement] = new google.maps.Marker({
         position: groupMarkers[icrement].marker,
         icon: pointGroups[group].image,
