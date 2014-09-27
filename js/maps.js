@@ -43,44 +43,49 @@ function initialize() {
         });
         areas[key].renderedArea.setMap(map);
 
-        areas[key].renderedMainPoint = new google.maps.Marker({
-            position: areas[key].mainPoint,
-            map: map,
-            title:areas[key].mainMarkerName,
-            icon: areas[key].mainPointIcon
-        });
-
-        areas[key].renderedMainPointInfo = new google.maps.InfoWindow({
-            content: areas[key].mainMarkerDescription
-        });
-        google.maps.event.addListener(areas[key].renderedMainPoint, 'click', function() {
-            areas[key].renderedMainPointInfo.open(map, areas[key].renderedMainPoint);
-        });
+        placeMarker(
+            areas[key].mainPoint,
+            map,
+            areas[key].mainMarkerName,
+            areas[key].mainPointIcon,
+            areas[key].mainMarkerDescription,
+            key
+        );
     }
 
     directionsDisplay.setMap(map);
     directionsDisplay.setPanel(document.getElementById('directions-panel'));
 
     google.maps.event.addListener(map, 'click', function(e) {
-        placeMarker(e.latLng, map);
+        placeMarker(e.latLng, map, null, null, null, null);
     });
 
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function placeMarker(position, map) {
-    lan = position.B;
-    lat = position.k;
+function placeMarker(position, map, title, icon, description, key) {
+    if (!description) {
+        description = '<div style="width:150px">' + position.k + ', ' + position.B + '</div>';
+    }
+
     var marker = new google.maps.Marker({
         position: position,
-        map: map
+        map: map,
+        title: title,
+        icon: icon
     });
-    var description = new google.maps.InfoWindow({
-        content: '<div style="width:150px">' + lat + ', ' + lan + '</div>'
+    var descriptionObject = new google.maps.InfoWindow({
+        content: description
     });
+
+    if (key) {
+        areas[key].renderedMainPointInfo = descriptionObject;
+        areas[key].renderedMainPoint     = marker;
+    }
+
     google.maps.event.addListener(marker, 'click', function() {
-        description.open(map, marker);
+        descriptionObject.open(map, marker);
     });
 }
 
